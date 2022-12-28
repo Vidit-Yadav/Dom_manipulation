@@ -1,25 +1,67 @@
-// var itemlist=document.querySelector('#items');
-// // console.log(itemlist.parentNode);
-// // itemlist.parentNode.style.backgroundColor="#b1b1b1";
-// // // console.log(itemlist.parentNode.parentNode.parentNode.parentNode);
-// // console.log(itemlist.children);
-// // console.log(itemlist.children[1]);
-// // itemlist.children[1].style.backgroundColor='yellow';
+var form=document.getElementById('addForm');
+var itemList=document.getElementById('items');
+var filter=document.getElementById('filter');
 
-// // console.log(itemlist.firstElementChild);
-// // itemlist.firstElementChild.textContent="heelo 1";
+//form submit event
 
-// // console.log(itemlist.lastElementChild);
-// // itemlist.lastElementChild.textContent="heelo 4";
+form.addEventListener('submit',addItem);
+//delete event
+itemList.addEventListener('click',removeitem);
+//filter event
+filter.addEventListener('keyup',filteritems);
 
-// // console.log(itemlist.nextElementSibling);
+//add item
+function addItem(e){
+    e.preventDefault();
+    //get input value
 
-// console.log(itemlist.previousSibling);
-// console.log(itemlist.previousElementSibling);
+var newitem=document.getElementById('item').value;
+var desc=document.getElementById('desc').value;
+//crate new li element
+var li=document.createElement('li');
+//add class
+li.className='list-group-item';
+//add tex with your input value
+li.appendChild(document.createTextNode(newitem)); 
+li.appendChild(document.createTextNode(' ' +desc));
+//cretae del button
 
+var del=document.createElement('button');
+//add classes to del btn
+del.className='btn btn-danger btn-sm float-right delete';
+//append text node
+del.appendChild(document.createTextNode('X'));
+//append button to li
+li.appendChild(del);
 
-var newdiv=document.createElement("div");
-newdiv.className="hello";
-newdiv.id="hello1";
-newdiv.setAttribute('title','hello dic');
-console.log(newdiv);
+itemList.appendChild(li);
+}
+
+function removeitem(e){
+    if (e.target.classList.contains('delete')){
+        // console.log('del')
+        if(confirm('are you sure ?')){
+            var li=e.target.parentElement;
+            itemList.removeChild(li);
+
+        }
+    }
+}
+function filteritems(e){
+    //convert text to lowercase
+    var text =e.target.value.toLowerCase();
+    //get li's 
+    var items=itemList.getElementsByTagName('li');
+    Array.from(items).forEach(function(item){
+        var itemname=item.firstChild.textContent;
+        var description=item.childNodes[1].textContent;
+        console.log(description);
+        // console.log(itemname);
+        if (itemname.toLowerCase().indexOf(text)!=-1 || description.toLowerCase().indexOf(text)!=1){
+            item.style.display='block';
+        }else{
+            item.style.display='none';
+        }
+    })
+
+}
