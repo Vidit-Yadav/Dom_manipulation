@@ -7,15 +7,26 @@ function finish(e){
   
   var naam=document.getElementById("name").value;
   var email=document.getElementById('email').value;
-  if (naam=='' || email == ''){
+  var phone=document.getElementById('phone').value;
+
+  if (naam=='' || email == ''||phone==''){
     
     const y = document.createElement('p');
     y.innerText="Please Fill all details before submitting";
     y.className='alert alert-danger'
     document.body.appendChild(y);
   }  
+  
+  let obj={
+    username:naam,
+    emailid:email,
+    contact:phone
+
+  }
+  
   // console.log(1)
-  localStorage.setItem(email,naam);
+  localStorage.setItem(email,JSON.stringify(obj));
+  
     
 }
 
